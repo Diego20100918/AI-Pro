@@ -4,7 +4,8 @@ window.onerror = function(msg, url, line) {
 };
 
 // --- Diego 2.0 基礎資料 ---
-let diegoFacts = "用戶特徵：高一學生，具備開發者思維。硬體配置：i5-14400F + RTX 5060 + DDR5 6200MHz CL40 @ 1.27V + 2K 210Hz。追求極限效能與生活掌控感的平衡。";
+const currentYear = new Date().getFullYear();
+let diegoFacts = `當前年份：${currentYear}年（請注意 RTX 50 系列等硬件已發佈，用戶並非內部測試人員）。用戶特徵：高一學生，具備開發者思維。硬體配置：i5-14400F + RTX 5060 + DDR5 6200MHz CL40 @ 1.27V + 2K 210Hz。追求極限效能與生活掌控感的平衡。`;
 
 console.log("✅ app.js 核心邏輯已載入");
 
