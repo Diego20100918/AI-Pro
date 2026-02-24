@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diego 2.0 AI Council</title>
+    <title>Diego 2.0 AI Council (Qwen & POE)</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
@@ -11,11 +11,17 @@
 
     <div id="settings-modal" class="modal">
         <div class="modal-content">
-            <h3>⚙️ API 設定 (儲存於本地 LocalStorage)</h3>
-            <input type="password" id="openai-key" placeholder="OpenAI API Key (sk-...)">
-            <input type="password" id="gemini-key" placeholder="Gemini API Key (AIza...)">
+            <h3>⚙️ AI 智囊團設定</h3>
+            <p style="font-size: 0.8rem; color: var(--text-secondary);">金鑰將儲存於本地 LocalStorage</p>
+            
+            <label for="qwen-key">阿里雲 Qwen Key:</label>
+            <input type="password" id="qwen-key" placeholder="DashScope API Key">
+            
+            <label for="poe-key">POE API Key:</label>
+            <input type="password" id="poe-key" placeholder="Poe-API Key / Proxy Key">
+            
             <div class="modal-actions">
-                <button onclick="saveKeys()" class="btn-primary">儲存</button>
+                <button onclick="saveKeys()" class="btn-primary">儲存設定</button>
                 <button onclick="toggleSettings()" class="btn-secondary">關閉</button>
             </div>
         </div>
@@ -24,35 +30,37 @@
     <header>
         <div class="nav-left">
             <button class="icon-btn" onclick="toggleSidebar()">☰</button>
-            <h1>⚡ Diego's AI Council</h1>
+            <h1>⚡ Diego's Council <span style="font-size: 0.7rem; opacity: 0.6;">(Qwen & POE)</span></h1>
         </div>
         <div class="nav-right">
-            <button class="icon-btn" onclick="syncData()" title="同步 Diego 最新資料">🔄 同步</button>
+            <button class="icon-btn" onclick="syncData()" title="同步 Diego 2.0 特質">🔄 同步 Facts</button>
             <button class="icon-btn" onclick="toggleSettings()" title="API 設定">⚙️</button>
         </div>
     </header>
 
     <div class="app-body">
         <aside id="sidebar" class="sidebar">
-            <ul>
-                <li class="active">硬件優化討論</li>
-                <li>向量基底與線性組合</li>
-                <li>Web Dev 項目</li>
+            <div class="sidebar-header">對話主題</div>
+            <ul id="topic-list">
+                <li class="active">硬件優化：i5-14400F 討論</li>
+                <li>數學：向量基底與線性組合</li>
+                <li>Web Dev：AI 學習助手開發</li>
+                <li>投資：法拉利 (RACE) 盈虧紀錄</li>
             </ul>
         </aside>
 
         <main class="chat-panel" id="main-chat">
             <div class="messages-container" id="execution-log">
-                <div class="message system">等待輸入指令...</div>
+                <div class="message system">智囊團已就位。請輸入指令，Qwen 與 POE 將為你進行辯論。</div>
             </div>
             <div class="input-area">
-                <textarea id="user-input" placeholder="輸入問題... (e.g. 點樣優化 14400F 效能？)"></textarea>
+                <textarea id="user-input" placeholder="問啲咩？(例如：DDR5 6200 CL40 點再壓低延遲？)"></textarea>
                 <button onclick="runCouncil()" class="btn-primary">發送</button>
             </div>
         </main>
 
         <aside class="thinking-panel" id="thinking-panel">
-            <div class="panel-header">🧠 雙 AI 思考工作坊</div>
+            <div class="panel-header">🧠 雙 AI 辯論工作坊 (Qwen vs POE)</div>
             <div class="messages-container" id="thinking-log">
                 </div>
         </aside>
