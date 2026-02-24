@@ -100,21 +100,27 @@ async function fetchQwen(context, prompt) {
 }
 
 async function fetchPoe(context, prompt) {
-    // 直接將乾淨嘅 Key 寫死喺度
-    const key = "zzOkQ4jDtpyVD9QqB2fuN9XR|IS1r_gijrXN6_gY1Zc";
+    // 🔑 已經幫你將 | 修正為原本嘅 l
+    const key = "zzOkQ4jDtpyVD9QqB2fuN9XRlIS1r_gijrXN6_gY1Zc";
 
-    const res = await fetch("https://api.poe.com/bot/query", { 
+    const res = await fetch("https://api.poe.com/v1/chat/completions", { 
         method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${key}` },
+        headers: { 
+            "Content-Type": "application/json", 
+            "Authorization": `Bearer ${key}` 
+        },
         body: JSON.stringify({
-            bot: "Claude-3-Sonnet", 
-            query: `${context}\n\n${prompt}`
+            model: "Claude-Sonnet-4.5", // 呼叫最強嘅 Claude 模型
+            messages: [
+                { role: "system", content: context },
+                { role: "user", content: prompt }
+            ]
         })
     }).catch(err => {
-        throw new Error("網絡請求被攔截 (CORS 錯誤：POE 官方不允許前端直接呼叫)");
+        throw new Error("網絡請求被攔截 (請檢查金鑰或 CORS 狀態)");
     });
     
     const data = await res.json();
-    if(!data.response) throw new Error("POE 伺服器無正確回應。");
-    return data.response; 
+    if(data.error) throw new Error(data.error.message);
+    return data.choices[0].message.content; 
 }
