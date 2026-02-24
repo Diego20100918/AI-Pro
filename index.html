@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diego 2.0 AI Council</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <h3>⚙️ API 設定 (儲存於本地 LocalStorage)</h3>
+            <input type="password" id="openai-key" placeholder="OpenAI API Key (sk-...)">
+            <input type="password" id="gemini-key" placeholder="Gemini API Key (AIza...)">
+            <div class="modal-actions">
+                <button onclick="saveKeys()" class="btn-primary">儲存</button>
+                <button onclick="toggleSettings()" class="btn-secondary">關閉</button>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="nav-left">
+            <button class="icon-btn" onclick="toggleSidebar()">☰</button>
+            <h1>⚡ Diego's AI Council</h1>
+        </div>
+        <div class="nav-right">
+            <button class="icon-btn" onclick="syncData()" title="同步 Diego 最新資料">🔄 同步</button>
+            <button class="icon-btn" onclick="toggleSettings()" title="API 設定">⚙️</button>
+        </div>
+    </header>
+
+    <div class="app-body">
+        <aside id="sidebar" class="sidebar">
+            <ul>
+                <li class="active">硬件優化討論</li>
+                <li>向量基底與線性組合</li>
+                <li>Web Dev 項目</li>
+            </ul>
+        </aside>
+
+        <main class="chat-panel" id="main-chat">
+            <div class="messages-container" id="execution-log">
+                <div class="message system">等待輸入指令...</div>
+            </div>
+            <div class="input-area">
+                <textarea id="user-input" placeholder="輸入問題... (e.g. 點樣優化 14400F 效能？)"></textarea>
+                <button onclick="runCouncil()" class="btn-primary">發送</button>
+            </div>
+        </main>
+
+        <aside class="thinking-panel" id="thinking-panel">
+            <div class="panel-header">🧠 雙 AI 思考工作坊</div>
+            <div class="messages-container" id="thinking-log">
+                </div>
+        </aside>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
