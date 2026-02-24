@@ -100,27 +100,37 @@ async function fetchQwen(context, prompt) {
 }
 
 async function fetchPoe(context, prompt) {
-    // 🔑 已經幫你將 | 修正為原本嘅 l
-    const key = "zzOkQ4jDtpyVD9QqB2fuN9XRlIS1r_gijrXN6_gY1Zc";
+    // 1. 原始 Key
+    let rawKey = "zzOkQ4jDtpyVD9QqB2fuN9XR|IS1r_gijrXN6_gY1Zc";
+    
+    // 🛡️ 絕對無塵淨化：[^\x20-\x7E] 會將所有「非標準可見 ASCII 字符（包括隱形幽靈符號）」全部殺清光！
+    const cleanKey = rawKey.replace(/[^\x20-\x7E]/g, '');
 
-    const res = await fetch("https://api.poe.com/v1/chat/completions", { 
+    // 2. 加入 CORS Proxy (參考你之前 AI 助手嘅做法)
+    // 如果你之前有自己專屬嘅 Proxy URL，請替換下面呢條 link
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/"; 
+    const targetUrl = "https://api.poe.com/v1/chat/completions";
+
+    const res = await fetch(proxyUrl + targetUrl, { 
         method: "POST",
         headers: { 
             "Content-Type": "application/json", 
-            "Authorization": `Bearer ${key}` 
+            "Authorization": `Bearer ${cleanKey}` 
         },
         body: JSON.stringify({
-            model: "Claude-Sonnet-4.5", // 呼叫最強嘅 Claude 模型
+            model: "Claude-3.5-Sonnet", // 確保 Model ID 正確
             messages: [
                 { role: "system", content: context },
                 { role: "user", content: prompt }
             ]
         })
     }).catch(err => {
-        throw new Error("網絡請求被攔截 (請檢查金鑰或 CORS 狀態)");
+        throw new Error("網絡請求被攔截 (Proxy 連線失敗或 CORS 錯誤)");
     });
     
     const data = await res.json();
     if(data.error) throw new Error(data.error.message);
+    if(!data.choices || data.choices.length === 0) throw new Error("POE 伺服器無正確回應。");
+    
     return data.choices[0].message.content; 
 }
