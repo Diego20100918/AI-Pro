@@ -2,70 +2,29 @@
 <html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diego's Council (Qwen x POE)</title>
+    <title>Debug Mode - Diego Council</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-
-    <div id="settings-modal" class="modal">
-        <div class="modal-content">
-            <h3>⚙️ AI 智囊團設定</h3>
-            <p class="hint">金鑰將安全儲存於本地瀏覽器 (LocalStorage)</p>
-            
-            <label for="qwen-key">阿里雲 Qwen Key (DashScope):</label>
-            <input type="password" id="qwen-key" placeholder="sk-...">
-            
-            <label for="poe-key">POE API Key (或 Proxy Key):</label>
-            <input type="password" id="poe-key" placeholder="輸入 POE 相關金鑰">
-            
-            <div class="modal-actions">
-                <button onclick="saveKeys()" class="btn-primary">儲存設定</button>
-                <button onclick="toggleSettings()" class="btn-secondary">關閉</button>
-            </div>
-        </div>
-    </div>
-
-    <header>
-        <div class="nav-left">
-            <button class="icon-btn" onclick="toggleSidebar()">☰</button>
-            <h1>⚡ Diego's Council <span class="badge">Qwen & POE</span></h1>
-        </div>
-        <div class="nav-right">
-            <button class="icon-btn" onclick="syncData()" title="更新系統提示詞">🔄 同步 Facts</button>
-            <button class="icon-btn" onclick="toggleSettings()" title="設定 API Key">⚙️</button>
-        </div>
+    <header style="background: #222; padding: 10px;">
+        <button onclick="testButton()">點擊測試 JS 是否運作</button>
+        <button onclick="toggleSettings()">設定 API</button>
     </header>
 
-    <div class="app-body">
-        <aside id="sidebar" class="sidebar">
-            <div class="sidebar-header">對話主題</div>
-            <ul id="topic-list">
-                <li class="active">🖥️ 硬件：i5-14400F 優化</li>
-                <li>📐 數學：向量與線性組合</li>
-                <li>💻 Web Dev：AI 助手開發</li>
-                <li>📈 投資：美股覆盤</li>
-            </ul>
-        </aside>
-
-        <main class="chat-panel" id="main-chat">
-            <div class="messages-container" id="execution-log">
-                <div class="message system">系統已就緒。請輸入問題，Qwen 與 POE 將在右側展開辯論。</div>
-            </div>
-            <div class="input-area">
-                <textarea id="user-input" placeholder="輸入指令... (例如：點樣喺唔加電壓下穩定 6200MHz？)"></textarea>
-                <button onclick="runCouncil()" class="btn-primary">發送</button>
-            </div>
-        </main>
-
-        <aside class="thinking-panel" id="thinking-panel">
-            <div class="panel-header">🧠 雙 AI 辯論工作坊</div>
-            <div class="messages-container" id="thinking-log">
-                </div>
-        </aside>
+    <div id="settings-modal" style="display:none; position:fixed; background:gray; padding:20px; z-index:100;">
+        <input type="password" id="qwen-key" placeholder="Qwen Key">
+        <input type="password" id="poe-key" placeholder="POE Key">
+        <button onclick="saveKeys()">儲存</button>
+        <button onclick="toggleSettings()">關閉</button>
     </div>
 
+    <main>
+        <div id="execution-log" style="height:200px; overflow:auto; border:1px solid white;"></div>
+        <textarea id="user-input" placeholder="輸入問題..."></textarea>
+        <button id="send-btn" onclick="runCouncil()">發送 (Council Mode)</button>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
